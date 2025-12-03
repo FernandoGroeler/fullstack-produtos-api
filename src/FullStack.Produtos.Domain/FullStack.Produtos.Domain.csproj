@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FullStack.Produtos.Infra\FullStack.Produtos.Infra.csproj" />
+  </ItemGroup>
+
 </Project>
