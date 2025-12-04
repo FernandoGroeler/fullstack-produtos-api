@@ -1,4 +1,3 @@
-using FullStack.Produtos.Application.Estoque;
 using FullStack.Produtos.Domain;
 
 namespace FullStack.Produtos.Application;
@@ -12,8 +11,7 @@ public class ListarTodosProdutosUseCase(IProdutoRepository produtoRepository) : 
         var produtos = await _produtoRepository.ListarTodosAsync();
 
         var produtosResponse = produtos
-            .Select(produto => new ProdutoResponse(produto.Id, produto.Nome, produto.Descricao, produto.Preco,
-                produto.EstoqueAtual))
+            .Select(produto => produto.ToProdutoResponse())
             .ToList();
 
         return !produtos.Any()

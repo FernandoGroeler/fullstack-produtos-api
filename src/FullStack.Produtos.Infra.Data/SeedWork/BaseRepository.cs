@@ -16,28 +16,33 @@ public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEnti
 
     public async Task<TEntity?> InserirAsync(TEntity entity)
     {
-        return (await DbSet.AddAsync(entity)).Entity;
+        var entry = await DbSet.AddAsync(entity);
+        await AppDbContext.SaveChangesAsync();
+        return entry.Entity;
     }
 
-    public TEntity? Alterar(TEntity entity)
+    public async Task<TEntity?> AlterarAsync(TEntity entity)
     {
-        return DbSet.Update(entity).Entity;
+        var entry = DbSet.Update(entity);
+        await AppDbContext.SaveChangesAsync();
+        return entry.Entity;        
     }
 
-    public bool Excluir(Guid id)
+    public async Task<bool> ExcluirAsync(Guid id)
     {
-        var entity = DbSet.Find(id);
-        if (entity != null)
-        {
-            return DbSet.Remove(entity).State == EntityState.Deleted;
-        }
-
-        return false;
+        var entity = await ObterPorIdAsync(id);
+        if (entity == null) 
+            return false;
+        
+        var entry = DbSet.Remove(entity); 
+        var excluido = entry.State == EntityState.Deleted;
+        await AppDbContext.SaveChangesAsync();
+        return excluido;
     }
 
     public async Task<TEntity?> ObterPorIdAsync(Guid id)
     {
-        return await DbSet.FindAsync(new[] { id });
+        return await DbSet.FindAsync(id);
     }
 
     public async Task<IEnumerable<TEntity>> ListarTodosAsync()

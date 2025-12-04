@@ -1,4 +1,3 @@
-using FullStack.Produtos.Application.Estoque;
 using FullStack.Produtos.Domain;
 
 namespace FullStack.Produtos.Application;

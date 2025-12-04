@@ -30,5 +30,7 @@ public static class ProdutosRegistry
     {
         services.AddScoped<IListarTodosProdutosUseCase, ListarTodosProdutosUseCase>();
         services.AddScoped<IObterProdutoUseCase, ObterProdutoUseCase>();
+        services.AddScoped<IIncluirProdutoUseCase, IncluirProdutoUseCase>();
+        services.AddScoped<IAlterarProdutoUseCase, AlterarProdutoUseCase>();
     }
 }
