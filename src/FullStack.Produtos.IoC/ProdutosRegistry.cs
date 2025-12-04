@@ -1,3 +1,4 @@
+using FluentValidation;
 using FullStack.Produtos.Application;
 using FullStack.Produtos.Domain;
 using FullStack.Produtos.Infra.Data;
@@ -13,6 +14,7 @@ public static class ProdutosRegistry
         RegisterDbContext(services);
         RegisterRepositories(services);
         RegisterUseCases(services);
+        RegisterValidators(services);
     }
     
     private static void RegisterDbContext(IServiceCollection services)
@@ -33,4 +35,11 @@ public static class ProdutosRegistry
         services.AddScoped<IIncluirProdutoUseCase, IncluirProdutoUseCase>();
         services.AddScoped<IAlterarProdutoUseCase, AlterarProdutoUseCase>();
     }
+    
+    private static void RegisterValidators(IServiceCollection services)
+    {
+        AssemblyScanner
+            .FindValidatorsInAssembly(AppDomain.CurrentDomain.Load("FullStack.Produtos.Application"))
+            .ForEach(result => services.AddScoped(result.InterfaceType, result.ValidatorType));        
+    }    
 }
