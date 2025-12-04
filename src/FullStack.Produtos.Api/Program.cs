@@ -1,6 +1,7 @@
 using System.Reflection;
 using Asp.Versioning;
 using FullStack.Produtos.Api;
+using FullStack.Produtos.Infra.Data;
 using FullStack.Produtos.IoC;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
@@ -16,6 +17,8 @@ builder.Configuration.AddEnvironmentVariables();
 // Dependencies
 builder.Services.RegisterDependencies();
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 builder.Services.AddMvc();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
@@ -41,6 +44,13 @@ builder.Services.ConfigureJsonOptions();
 
 var app = builder.Build();
 
+// Garante criação do banco e seed
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContextInMemory>();
+    db.Database.EnsureCreated();
+}
+
 app.MapEndpoints();
 
 // Configure the HTTP request pipeline.
@@ -64,6 +74,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseAuthentication();
-//app.UseExceptionHandler();
+app.UseExceptionHandler();
 
 await app.RunAsync();

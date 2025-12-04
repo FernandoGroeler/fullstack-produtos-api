@@ -14,7 +14,6 @@ public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEnti
         DbSet = AppDbContext.Set<TEntity>();
     }
 
-
     public async Task<TEntity?> InserirAsync(TEntity entity)
     {
         return (await DbSet.AddAsync(entity)).Entity;
@@ -39,5 +38,10 @@ public abstract class BaseRepository<TEntity> : IRepository<TEntity> where TEnti
     public async Task<TEntity?> ObterPorIdAsync(Guid id)
     {
         return await DbSet.FindAsync(new[] { id });
+    }
+
+    public async Task<IEnumerable<TEntity>> ListarTodosAsync()
+    {
+        return await DbSet.AsNoTracking().ToListAsync();
     }
 }
