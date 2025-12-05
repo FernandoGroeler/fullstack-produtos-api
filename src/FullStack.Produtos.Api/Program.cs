@@ -5,6 +5,8 @@ using FullStack.Produtos.Infra.Data;
 using FullStack.Produtos.IoC;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
+const string corsPolicy = "CorsPolicy";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -41,6 +43,14 @@ builder.Services.AddApiVersioning(options =>
 builder.Services.ConfigureOptions<ConfigureSwaggerGenOptions>();
 builder.Services.AddEndpoints(typeof(Program).Assembly);
 builder.Services.ConfigureJsonOptions();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(corsPolicy,
+        confPolity => confPolity
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 
 var app = builder.Build();
 
@@ -75,5 +85,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseAuthentication();
 app.UseExceptionHandler();
+app.UseCors(corsPolicy);
 
 await app.RunAsync();

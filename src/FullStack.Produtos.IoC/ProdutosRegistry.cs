@@ -41,5 +41,5 @@ public static class ProdutosRegistry
         AssemblyScanner
             .FindValidatorsInAssembly(AppDomain.CurrentDomain.Load("FullStack.Produtos.Application"))
             .ForEach(result => services.AddScoped(result.InterfaceType, result.ValidatorType));        
-    }    
+    }
 }
