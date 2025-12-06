@@ -19,6 +19,6 @@ public class ExcluirProdutoUseCase(IValidator<ExcluirProdutoRequest> validator,
         
         return !produtoExcluido
             ? Response<bool>.Notification("Produto não foi excluído.")
-            : Response<bool>.Success(produtoExcluido);
+            : Response<bool>.Success("Produto excluído com sucesso.", produtoExcluido);
     }
 }
