@@ -34,6 +34,7 @@ public static class ProdutosRegistry
         services.AddScoped<IObterProdutoUseCase, ObterProdutoUseCase>();
         services.AddScoped<IIncluirProdutoUseCase, IncluirProdutoUseCase>();
         services.AddScoped<IAlterarProdutoUseCase, AlterarProdutoUseCase>();
+        services.AddScoped<IExcluirProdutoUseCase, ExcluirProdutoUseCase>();
     }
     
     private static void RegisterValidators(IServiceCollection services)
