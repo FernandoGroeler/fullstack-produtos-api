@@ -7,14 +7,8 @@ namespace FullStack.Produtos.Application.UnitTest;
 
 public class ObterProdutoUseCaseUnitTest
 {
-    private readonly Mock<IValidator<ObterProdutoRequest>> _validatorMock;
-    private readonly Mock<IProdutoRepository> _produtoRepositoryMock;
-
-    public ObterProdutoUseCaseUnitTest()
-    {
-        _validatorMock = new Mock<IValidator<ObterProdutoRequest>>();
-        _produtoRepositoryMock = new Mock<IProdutoRepository>();
-    }
+    private readonly Mock<IValidator<ObterProdutoRequest>> _validatorMock = new();
+    private readonly Mock<IProdutoRepository> _produtoRepositoryMock = new();
 
     [Fact]
     public async Task ExecuteAsync_DeveRetornarValidation_QuandoRequestInvalido()
